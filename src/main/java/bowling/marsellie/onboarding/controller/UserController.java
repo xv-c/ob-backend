@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(Endpoints.USER)
@@ -40,18 +39,18 @@ public class UserController {
     @GetMapping("/roles")
     public List<RoleDTO> roles() {
         return Arrays.stream(Role.values())
-                .map(role -> new RoleDTO(role.toString(), role.getName()))
+                .map(RoleDTO::of)
                 .toList();
     }
 
     @PostMapping
-    public AppUser register(@RequestBody AppUserRegistrationDTO appUserRegistrationDTO) {
+    public AppUserDTO register(@RequestBody AppUserRegistrationDTO appUserRegistrationDTO) {
         Department department = departmentRepo
                 .findById(appUserRegistrationDTO.getDepartmentId())
                 .orElseThrow();
         String encodedPassword = passwordEncoder.encode(appUserRegistrationDTO.getPassword());
 
-        return userRepo.save(AppUser.builder()
+        return AppUserDTO.of(userRepo.save(AppUser.builder()
                 .username(appUserRegistrationDTO.getUsername())
                 .password(encodedPassword)
                 .name(appUserRegistrationDTO.getName())
@@ -59,6 +58,6 @@ public class UserController {
                 .department(department)
                 .roles(appUserRegistrationDTO.getRoles())
                 .build()
-        );
+        ));
     }
 }
