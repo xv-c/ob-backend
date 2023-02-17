@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "usr")
 @Data
@@ -30,8 +28,6 @@ public class AppUser {
     @ManyToOne
     private Department department;
 
-    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @JoinTable(name = "usr_roles")
-    private Set<Role> roles;
+    private Role role;
 }

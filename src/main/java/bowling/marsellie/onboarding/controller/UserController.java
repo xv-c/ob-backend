@@ -23,9 +23,9 @@ import java.util.List;
 @RequestMapping(Endpoints.USER)
 @RequiredArgsConstructor
 public class UserController {
-    private final UserRepo userRepo;
-    private final DepartmentRepo departmentRepo;
     private final PasswordEncoder passwordEncoder;
+    private final DepartmentRepo departmentRepo;
+    private final UserRepo userRepo;
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -61,7 +61,7 @@ public class UserController {
                 .name(appUserRegistrationDTO.getName())
                 .lastName(appUserRegistrationDTO.getLastName())
                 .department(department)
-                .roles(appUserRegistrationDTO.getRoles())
+                .role(appUserRegistrationDTO.getRole())
                 .build()
         ));
     }

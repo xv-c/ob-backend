@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
@@ -16,7 +18,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsernameIgnoreCase(username)
-                .map(user -> new User(user.getUsername(), user.getPassword(), user.getRoles()))
+                .map(user -> new User(user.getUsername(), user.getPassword(), Collections.singleton(user.getRole())))
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found [%s]".formatted(username)));
     }
 }

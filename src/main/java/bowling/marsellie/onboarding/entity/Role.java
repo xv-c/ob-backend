@@ -3,13 +3,12 @@ package bowling.marsellie.onboarding.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 
 @RequiredArgsConstructor
 @Getter
 public enum Role implements GrantedAuthority {
-    NEWCOMER("Новый сотрудник"),
     HR("HR"),
+    NEWCOMER("Новый сотрудник"),
     DEPARTMENT_HEAD("Руководитель");
 
     private final String name;

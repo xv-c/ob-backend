@@ -2,7 +2,6 @@ package bowling.marsellie.onboarding.controller;
 
 import bowling.marsellie.onboarding.Endpoints;
 import bowling.marsellie.onboarding.dto.DepartmentDTO;
-import bowling.marsellie.onboarding.entity.Department;
 import bowling.marsellie.onboarding.repo.DepartmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

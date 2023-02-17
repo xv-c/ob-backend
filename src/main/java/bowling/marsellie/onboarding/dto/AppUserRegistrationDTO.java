@@ -19,5 +19,5 @@ public class AppUserRegistrationDTO {
 
     private Long departmentId;
 
-    private Set<Role> roles;
+    private Role role;
 }

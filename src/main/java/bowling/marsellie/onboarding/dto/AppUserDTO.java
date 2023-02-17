@@ -1,12 +1,8 @@
 package bowling.marsellie.onboarding.dto;
 
 import bowling.marsellie.onboarding.entity.AppUser;
-import bowling.marsellie.onboarding.entity.Role;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -21,7 +17,7 @@ public class AppUserDTO {
 
     private DepartmentDTO department;
 
-    private Set<RoleDTO> roles;
+    private RoleDTO role;
 
     public static AppUserDTO of(AppUser appUser) {
         if (appUser == null) {
@@ -34,10 +30,7 @@ public class AppUserDTO {
                 .name(appUser.getName())
                 .lastName(appUser.getLastName())
                 .department(DepartmentDTO.of(appUser.getDepartment()))
-                .roles(appUser.getRoles().stream()
-                        .map(RoleDTO::of)
-                        .collect(Collectors.toSet())
-                )
+                .role(RoleDTO.of(appUser.getRole()))
                 .build();
     }
 }
