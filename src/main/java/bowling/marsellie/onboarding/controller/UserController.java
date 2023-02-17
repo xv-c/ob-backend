@@ -1,6 +1,6 @@
 package bowling.marsellie.onboarding.controller;
 
-import bowling.marsellie.onboarding.dto.AppUserCDTO;
+import bowling.marsellie.onboarding.dto.AppUserRegistrationDTO;
 import bowling.marsellie.onboarding.entity.AppUser;
 import bowling.marsellie.onboarding.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +26,10 @@ public class UserController {
     }
 
     @PostMapping
-    public AppUser register(@RequestBody AppUserCDTO appUserCDTO) {
+    public AppUser register(@RequestBody AppUserRegistrationDTO appUserRegistrationDTO) {
         return userRepo.save(AppUser.builder()
-                .username(appUserCDTO.getUsername())
-                .password(passwordEncoder.encode(appUserCDTO.getPassword()))
+                .username(appUserRegistrationDTO.getUsername())
+                .password(passwordEncoder.encode(appUserRegistrationDTO.getPassword()))
                 .roles(Collections.singleton(AppUser.Role.USER))
                 .build()
         );
