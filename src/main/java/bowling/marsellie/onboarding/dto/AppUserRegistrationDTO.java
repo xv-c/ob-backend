@@ -1,6 +1,6 @@
 package bowling.marsellie.onboarding.dto;
 
-import bowling.marsellie.onboarding.entity.AppUser;
+import bowling.marsellie.onboarding.entity.Role;
 import lombok.Data;
 
 import java.util.Set;
@@ -8,6 +8,16 @@ import java.util.Set;
 @Data
 public class AppUserRegistrationDTO {
     private String username;
+
     private String password;
-    private Set<AppUser.Role> roles;
+
+    private String name;
+
+    private String lastName;
+
+    private String email;
+
+    private Long departmentId;
+
+    private Set<Role> roles;
 }

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Set;
 
@@ -24,17 +23,15 @@ public class AppUser {
 
     private String password;
 
+    private String name;
+
+    private String lastName;
+
+    @ManyToOne
+    private Department department;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @JoinTable(name = "usr_roles")
     private Set<Role> roles;
-
-    public enum Role implements GrantedAuthority {
-        NEWCOMER, HR, DEPARTMENT_HEAD;
-
-        @Override
-        public String getAuthority() {
-            return toString();
-        }
-    }
 }
