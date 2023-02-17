@@ -3,6 +3,7 @@ package bowling.marsellie.onboarding.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 
 @RequiredArgsConstructor
 @Getter
@@ -15,6 +16,6 @@ public enum Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return toString();
+        return "ROLE_" + this;
     }
 }

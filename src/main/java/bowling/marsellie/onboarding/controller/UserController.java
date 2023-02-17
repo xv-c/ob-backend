@@ -45,6 +45,11 @@ public class UserController {
 
     @PostMapping
     public AppUserDTO register(@RequestBody AppUserRegistrationDTO appUserRegistrationDTO) {
+        userRepo.findByUsernameIgnoreCase(appUserRegistrationDTO.getUsername())
+                .ifPresent(val -> {
+                    throw new RuntimeException();
+                });
+
         Department department = departmentRepo
                 .findById(appUserRegistrationDTO.getDepartmentId())
                 .orElseThrow();

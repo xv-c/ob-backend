@@ -12,6 +12,10 @@ public class RoleDTO {
     private String name;
 
     public static RoleDTO of(Role role) {
+        if (role == null) {
+            return null;
+        }
+
         return RoleDTO.builder()
                 .code(role.toString())
                 .name(role.getName())
