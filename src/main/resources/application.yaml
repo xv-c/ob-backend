@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    username: ob
+    password: ob
+    url: jdbc:postgresql://localhost:5432/ob
+
+  jpa:
+    hibernate:
+      ddl-auto: create
