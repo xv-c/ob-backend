@@ -30,7 +30,7 @@ public class AppUser {
     private Set<Role> roles;
 
     public enum Role implements GrantedAuthority {
-        USER, ADMIN;
+        NEWCOMER, HR, DEPARTMENT_HEAD;
 
         @Override
         public String getAuthority() {

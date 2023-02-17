@@ -10,7 +10,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -25,12 +26,18 @@ public class UserController {
         return user;
     }
 
+    @GetMapping("/roles")
+    @PreAuthorize("isAuthenticated()")
+    public List<AppUser.Role> roles() {
+        return Arrays.asList(AppUser.Role.values());
+    }
+
     @PostMapping
     public AppUser register(@RequestBody AppUserRegistrationDTO appUserRegistrationDTO) {
         return userRepo.save(AppUser.builder()
                 .username(appUserRegistrationDTO.getUsername())
                 .password(passwordEncoder.encode(appUserRegistrationDTO.getPassword()))
-                .roles(Collections.singleton(AppUser.Role.USER))
+                .roles(appUserRegistrationDTO.getRoles())
                 .build()
         );
     }
