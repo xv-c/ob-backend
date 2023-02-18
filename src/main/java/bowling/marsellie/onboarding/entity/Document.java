@@ -1,5 +1,6 @@
 package bowling.marsellie.onboarding.entity;
 
+import bowling.marsellie.onboarding.entity.test.Test;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +32,9 @@ public class Document {
 
     @OneToOne
     private AppFile file;
+
+    @OneToOne
+    private Test test;
 
     @ManyToOne
     private Department department;

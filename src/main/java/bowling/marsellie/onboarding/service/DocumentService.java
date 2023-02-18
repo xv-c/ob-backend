@@ -1,8 +1,8 @@
 package bowling.marsellie.onboarding.service;
 
 import bowling.marsellie.onboarding.dto.DocumentDTO;
+import bowling.marsellie.onboarding.dto.DocumentShortDTO;
 import bowling.marsellie.onboarding.entity.AppFile;
-import bowling.marsellie.onboarding.entity.AppUser;
 import bowling.marsellie.onboarding.entity.Department;
 import bowling.marsellie.onboarding.entity.Document;
 import bowling.marsellie.onboarding.repo.DocumentRepo;
@@ -29,9 +29,16 @@ public class DocumentService {
                 .build());
     }
 
-    public List<DocumentDTO> getAllDocuments(User user) {
+    public List<DocumentShortDTO> getAllDocuments(User user) {
         return documentRepo.findByDepartment(userService.findByUsername(user).getDepartment())
+                .map(DocumentShortDTO::new)
+                .stream()
+                .toList();
+    }
+
+    public DocumentDTO getById(Long id, User user) {
+        return documentRepo.findByIdAndDepartment(id, userService.findByUsername(user).getDepartment())
                 .map(DocumentDTO::new)
-                .stream().toList();
+                .orElseThrow();
     }
 }

@@ -1,5 +1,6 @@
 package bowling.marsellie.onboarding.config;
 
+import bowling.marsellie.onboarding.Endpoints;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -21,19 +22,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
+    public static final String SESSION_COOKIE = "JSESSIONID";
 
     @Bean
     @SneakyThrows
     public SecurityFilterChain filterChain(HttpSecurity http) {
         return http.authorizeHttpRequests()
-                .requestMatchers("/api/**").permitAll()
-                .requestMatchers("/hello").permitAll()
+                .requestMatchers(Endpoints.PREFIX + "/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
 
                 .formLogin()
-                .loginProcessingUrl("/api/login")
+                .loginProcessingUrl(Endpoints.LOGIN)
                 .successHandler(authSuccessHandler())
                 .failureHandler(authFailureHandler())
                 .permitAll()
@@ -41,9 +42,9 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .and()
 
                 .logout()
-                .logoutUrl("/api/logout")
+                .logoutUrl(Endpoints.LOGOUT)
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                .deleteCookies(SESSION_COOKIE)
                 .logoutSuccessHandler(logoutSuccessHandler())
 
                 .and()

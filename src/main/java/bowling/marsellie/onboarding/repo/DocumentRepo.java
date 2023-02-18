@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface DocumentRepo extends JpaRepository<Document, Long> {
 
     Optional<Document> findByDepartment(Department department);
+    Optional<Document> findByIdAndDepartment(Long id, Department department);
 }

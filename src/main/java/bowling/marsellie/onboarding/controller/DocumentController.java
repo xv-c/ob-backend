@@ -2,6 +2,7 @@ package bowling.marsellie.onboarding.controller;
 
 import bowling.marsellie.onboarding.Endpoints;
 import bowling.marsellie.onboarding.dto.DocumentDTO;
+import bowling.marsellie.onboarding.dto.DocumentShortDTO;
 import bowling.marsellie.onboarding.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,7 +28,16 @@ public class DocumentController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<DocumentDTO>> getAllDocuments(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<DocumentShortDTO>> getAllDocuments(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(documentService.getAllDocuments(user));
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<DocumentDTO> getById(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(documentService.getById(id, user));
     }
 }
