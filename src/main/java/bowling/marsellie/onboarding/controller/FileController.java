@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(Endpoints.FILE)
-@PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 public class FileController {
     private final FileService fileService;
