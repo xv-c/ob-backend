@@ -4,17 +4,20 @@ import bowling.marsellie.onboarding.Endpoints;
 import bowling.marsellie.onboarding.dto.AppUserDTO;
 import bowling.marsellie.onboarding.dto.AppUserRegistrationDTO;
 import bowling.marsellie.onboarding.dto.RoleDTO;
-import bowling.marsellie.onboarding.entity.AppUser;
-import bowling.marsellie.onboarding.entity.Department;
 import bowling.marsellie.onboarding.entity.Role;
 import bowling.marsellie.onboarding.repo.DepartmentRepo;
 import bowling.marsellie.onboarding.repo.UserRepo;
+import bowling.marsellie.onboarding.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,9 +26,9 @@ import java.util.List;
 @RequestMapping(Endpoints.USER)
 @RequiredArgsConstructor
 public class UserController {
-    private final PasswordEncoder passwordEncoder;
-    private final DepartmentRepo departmentRepo;
+
     private final UserRepo userRepo;
+    private final UserService userService;
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -44,25 +47,7 @@ public class UserController {
     }
 
     @PostMapping
-    public AppUserDTO register(@RequestBody AppUserRegistrationDTO appUserRegistrationDTO) {
-        userRepo.findByUsernameIgnoreCase(appUserRegistrationDTO.getUsername())
-                .ifPresent(val -> {
-                    throw new RuntimeException();
-                });
-
-        Department department = departmentRepo
-                .findById(appUserRegistrationDTO.getDepartmentId())
-                .orElseThrow();
-        String encodedPassword = passwordEncoder.encode(appUserRegistrationDTO.getPassword());
-
-        return AppUserDTO.of(userRepo.save(AppUser.builder()
-                .username(appUserRegistrationDTO.getUsername())
-                .password(encodedPassword)
-                .name(appUserRegistrationDTO.getName())
-                .lastName(appUserRegistrationDTO.getLastName())
-                .department(department)
-                .role(appUserRegistrationDTO.getRole())
-                .build()
-        ));
+    public ResponseEntity<AppUserDTO> register(@RequestBody AppUserRegistrationDTO appUserRegistrationDTO) {
+        return ResponseEntity.ok(userService.register(appUserRegistrationDTO));
     }
 }
