@@ -25,7 +25,7 @@ public class FileController {
             @PathVariable("id") Long id,
             HttpServletResponse response
     ) {
-        response.setHeader("Content-Disposition", "attachment; filename=document.pdf");
+        response.setHeader("Content-Disposition", "inline; filename=document.pdf");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
