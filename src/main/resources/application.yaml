@@ -2,7 +2,7 @@ spring:
   datasource:
     username: ob
     password: ob
-    url: jdbc:postgresql://localhost:5432/ob
+    url: jdbc:postgresql://83.220.169.145:5432/ob
 
   jpa:
     hibernate:
