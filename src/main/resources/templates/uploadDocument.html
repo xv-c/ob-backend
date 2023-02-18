@@ -8,13 +8,13 @@
 <body>
 
     <div>
-        <form action="createDocument" method="post">
+        <form enctype="multipart/form-data" method="post">
             <label>Департамент:</label>
-            <select>
-                <option th:each="option : ${departments}" th:value="${option}" th:text="${option.name}"></option><br>
+            <select name = "department">
+                <option th:each="option : ${departments}" th:value="${option.id}" th:text="${option.name}"></option>
             </select>
             <label>Файл:</label>
-            <input type="file"><br>
+            <input type="file" name="file">
             <input type="submit" value="Загрузить">
         </form>
     </div>

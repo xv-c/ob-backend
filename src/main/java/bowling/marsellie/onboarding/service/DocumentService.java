@@ -9,6 +9,7 @@ import bowling.marsellie.onboarding.repo.DocumentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class DocumentService {
     private final DepartmentService departmentService;
     private final UserService userService;
 
-    public Document addDocumentToDepartment(byte[] fileBytes, String filename, Long departmentId) {
-        AppFile newFile = fileService.createFile(fileBytes, filename);
+    public Document addDocumentToDepartment(MultipartFile file, Long departmentId) {
+        AppFile newFile = fileService.createFile(file);
         Department department = departmentService.findById(departmentId);
         return documentRepo.save(Document.builder()
                 .file(newFile)
