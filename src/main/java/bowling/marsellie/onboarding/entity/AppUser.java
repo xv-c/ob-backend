@@ -25,6 +25,8 @@ public class AppUser {
 
     private String lastName;
 
+    private String email;
+
     @ManyToOne
     private Department department;
 
