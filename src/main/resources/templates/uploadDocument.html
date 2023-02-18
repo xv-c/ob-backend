@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload document</title>
+</head>
+
+<body>
+
+    <div>
+        <form action="createDocument" method="post">
+            <label>Департамент:</label>
+            <select>
+                <option th:each="option : ${departments}" th:value="${option}" th:text="${option.name}"></option><br>
+            </select>
+            <label>Файл:</label>
+            <input type="file"><br>
+            <input type="submit" value="Загрузить">
+        </form>
+    </div>
+
+</body>
+</html>

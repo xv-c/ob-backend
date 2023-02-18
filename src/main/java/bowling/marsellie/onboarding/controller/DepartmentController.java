@@ -3,6 +3,7 @@ package bowling.marsellie.onboarding.controller;
 import bowling.marsellie.onboarding.Endpoints;
 import bowling.marsellie.onboarding.dto.DepartmentDTO;
 import bowling.marsellie.onboarding.repo.DepartmentRepo;
+import bowling.marsellie.onboarding.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,12 +18,10 @@ import java.util.List;
 @PreAuthorize("hasRole('HR')")
 @RequiredArgsConstructor
 public class DepartmentController {
-    private final DepartmentRepo departmentRepo;
+    private final DepartmentService departmentService;
 
     @GetMapping
     public List<DepartmentDTO> list() {
-        return departmentRepo.findAll(Pageable.unpaged())
-                .map(DepartmentDTO::of)
-                .toList();
+        return departmentService.getAllDepartments();
     }
 }

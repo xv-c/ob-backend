@@ -4,7 +4,6 @@ import bowling.marsellie.onboarding.dto.AppUserRegistrationDTO;
 import bowling.marsellie.onboarding.entity.AppUser;
 import bowling.marsellie.onboarding.entity.Department;
 import bowling.marsellie.onboarding.entity.Role;
-import bowling.marsellie.onboarding.repo.DepartmentRepo;
 import bowling.marsellie.onboarding.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;

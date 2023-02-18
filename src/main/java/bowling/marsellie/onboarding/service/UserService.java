@@ -4,7 +4,6 @@ import bowling.marsellie.onboarding.dto.AppUserDTO;
 import bowling.marsellie.onboarding.dto.AppUserRegistrationDTO;
 import bowling.marsellie.onboarding.entity.AppUser;
 import bowling.marsellie.onboarding.entity.Department;
-import bowling.marsellie.onboarding.repo.DepartmentRepo;
 import bowling.marsellie.onboarding.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -21,10 +20,11 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    private final DepartmentRepo departmentRepo;
+    private final DepartmentService departmentService;
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
+    private final ProgressService progressService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public AppUserDTO register(AppUserRegistrationDTO appUserRegistrationDTO) {
-        Department department = departmentRepo.findById(appUserRegistrationDTO.getDepartmentId()).orElseThrow();
+        Department department = departmentService.findById(appUserRegistrationDTO.getDepartmentId());
         AppUserDTO newUser = createUser(appUserRegistrationDTO, department);
         mailService.sendEmailToBoss(appUserRegistrationDTO, department);
         return newUser;
@@ -47,13 +47,21 @@ public class UserService implements UserDetailsService {
                     throw new RuntimeException();
                 });
         String encodedPassword = passwordEncoder.encode(appUserRegistrationDTO.getPassword());
-        return AppUserDTO.of(userRepo.save(AppUser.builder()
+        AppUser newUser = userRepo.save(AppUser.builder()
                 .username(appUserRegistrationDTO.getUsername())
                 .password(encodedPassword)
                 .name(appUserRegistrationDTO.getName())
                 .lastName(appUserRegistrationDTO.getLastName())
                 .department(department)
                 .role(appUserRegistrationDTO.getRole())
-                .build()));
+                .build());
+        progressService.createProgress(newUser);
+        return AppUserDTO.of(newUser);
+    }
+
+    public AppUser findByUsername(User user) {
+        String username = user.getUsername();
+        return userRepo.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new RuntimeException(String.format("User with username %s not found", username)));
     }
 }
