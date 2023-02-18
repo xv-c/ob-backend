@@ -32,8 +32,8 @@ public class DocumentService {
 
     public List<DocumentShortDTO> getAllDocuments(User user) {
         return documentRepo.findByDepartment(userService.findByUsername(user).getDepartment())
-                .map(DocumentShortDTO::new)
                 .stream()
+                .map(DocumentShortDTO::new)
                 .toList();
     }
 
